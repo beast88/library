@@ -31,6 +31,7 @@ createButton.addEventListener('click', e => {
 
 const createBook = (e) => {
     e.preventDefault()
+    //Get DOM Values
     const title = document.getElementById('title').value;
     const author = document.getElementById('author').value;
     const pages = document.getElementById('pages').value;
@@ -42,13 +43,12 @@ const createBook = (e) => {
         read = false
     }
 
+    //Instantial a new book and push it to the library
     const newBook = new Book(title, author, pages, read);
     library.push(newBook);
 
-    //Need to reset values
+    //Reset and close form
     createForm.reset()
-    console.log(library)
-
     formModal.style.display = 'none';
 }
 
