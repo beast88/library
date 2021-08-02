@@ -28,3 +28,28 @@ const submitButton = document.getElementById('submit-button');
 createButton.addEventListener('click', e => {
     formModal.style.display = 'block';
 })
+
+const createBook = (e) => {
+    e.preventDefault()
+    const title = document.getElementById('title').value;
+    const author = document.getElementById('author').value;
+    const pages = document.getElementById('pages').value;
+    let read;
+
+    if(document.getElementById('read').checked === true) {
+        read = true
+    } else {
+        read = false
+    }
+
+    const newBook = new Book(title, author, pages, read);
+    library.push(newBook);
+
+    //Need to reset values
+    createForm.reset()
+    console.log(library)
+
+    formModal.style.display = 'none';
+}
+
+submitButton.addEventListener('click', createBook);
