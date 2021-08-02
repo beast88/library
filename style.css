@@ -5,6 +5,24 @@
     box-sizing: border-box;
 }
 
+@keyframes modal-open {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes form-enter {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
 .header, .footer {
     padding: 20px;
     text-align: center;
@@ -55,9 +73,11 @@ a:hover, button:hover {
     left: 0;
     width: 100vw;
     height: 100vh;
+    overflow: auto;
     z-index: 2;
     background-color: rgba(0, 0, 0, 0.4);
 
+    animation: modal-open .5s;
 }
 
 .create-book-form {
@@ -67,6 +87,8 @@ a:hover, button:hover {
     min-width: 290px;
     width: 60%;
     border-radius: 5px;
+
+    animation: form-enter .75s;
 }
 
 .create-book-form h2 {
