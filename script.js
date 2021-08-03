@@ -8,14 +8,20 @@ function Book(title, author, pages, read) {
 	this.read = read;
 }
 
+//Prototypes to handle changing the read status of the book
+Book.prototype.isRead = function() {
+	this.read = true;
+}
+
+Book.prototype.isUnread = function() {
+	this.read = false;
+}
+
 //Instantiate the objects
-const bookOne = new Book('Harry Potter', 'JK Rowling', 435, true);
+const bookOne = new Book('Carrie', 'Stephen King', 435, true);
 const bookTwo = new Book('The Hobbit', 'JRR Tolkien', 376, false);
 
 library.push(bookOne, bookTwo);
-
-console.log(library);
-console.log(library[1].author);
 
 //Get DOM elements
 const createButton = document.getElementById('create-button');
@@ -32,7 +38,7 @@ createButton.addEventListener('click', e => {
 //Function to populate the library UI
 const createLibrary = () => {
 	//Iterate through the library array
-	library.forEach(book => {
+	library.forEach((book, index) => {
 		const bookCard = document.createElement('div');
 		bookCard.classList.add('card');
 
@@ -41,11 +47,36 @@ const createLibrary = () => {
 			<p>${book.pages} pages</p>
 
 			<div class="book-buttons-controller">
-				<button class="book-buttons ${book.read ? 'active' : ''}" id="read-button">Read</button>
-				<button class="book-buttons ${book.read ? '' : 'active'}" id="unread-button">Unread</button>
+				<button class="book-buttons ${book.read ? 'active' : ''}" id="${index} read-button">Read</button>
+				<button class="book-buttons ${book.read ? '' : 'active'}" id="${index} unread-button">Unread</button>
 			</div>
 		`
 		container.append(bookCard);
+		handleBookButtons(index, book);
+	})
+}
+
+const handleBookButtons = (index, book) => {
+	//Add Event listeners to the buttons -- outsource to its own function
+	const readBtn = document.getElementById(`${index} read-button`);
+	const unreadBtn = document.getElementById(`${index} unread-button`);
+
+	readBtn.addEventListener('click', () => {
+		if(book.read === false) {
+			//Function to change the value of read
+			book.isRead();
+			readBtn.classList.toggle('active');
+			unreadBtn.classList.toggle('active');
+		}
+	})
+
+	unreadBtn.addEventListener('click', () => {
+		if(book.read === true) {
+			//Function to change the value of read
+			book.isUnread();
+			readBtn.classList.toggle('active');
+			unreadBtn.classList.toggle('active');
+		}
 	})
 }
 
@@ -77,5 +108,5 @@ const createBook = (e) => {
 //Handle submitting the form
 submitButton.addEventListener('click', createBook);
 
-//Testing create library
+//Create library from the pre-populated library
 createLibrary();
