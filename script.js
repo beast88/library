@@ -72,9 +72,7 @@ const deleteBook = () => {
 			library = updatedLibrary;
 			
 			//Reload the library
-			container.innerHTML = '';
-			createLibrary();
-			deleteBook();
+			load();
 		})
 	})
 }
@@ -124,16 +122,18 @@ const createBook = (e) => {
 	//Reset and close form & populate library
 	createForm.reset()
 	formModal.style.display = 'none';
-	container.innerHTML = '';
-	createLibrary();
-	deleteBook();
+	load();
 }
 
 //Handle submitting the form
 submitButton.addEventListener('click', createBook);
 
 //Load the library
+const load = () => {
+	container.innerHTML = '';
+	createLibrary();
+	deleteBook();
+}
 
 //Create from the pre-populated library
-createLibrary();
-deleteBook();
+load();
