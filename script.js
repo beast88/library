@@ -42,7 +42,8 @@ const createLibrary = () => {
 		const bookCard = document.createElement('div');
 		bookCard.classList.add('card');
 
-		bookCard.innerHTML = `<h3>${book.title}</h3>
+		bookCard.innerHTML = `<button data-index="${index}" class="delete-button" id="${index} delete-button"><i class="fas fa-times"></i></button>
+			<h3>${book.title}</h3>
 			<p>By ${book.author}</p>
 			<p>${book.pages} pages</p>
 
@@ -53,6 +54,28 @@ const createLibrary = () => {
 		`
 		container.append(bookCard);
 		handleBookButtons(index, book);
+	})
+}
+
+//Function to handle deleting a book
+const deleteBook = () => {
+	const deleteBtns = document.querySelectorAll('.delete-button');
+
+	deleteBtns.forEach(button => {
+		const index = button.getAttribute('data-index');
+
+		button.addEventListener('click', () => {
+			const updatedLibrary = library.filter((book, i) => {
+				return i !== Number(index);
+			})
+
+			library = updatedLibrary;
+			
+			//Reload the library
+			container.innerHTML = '';
+			createLibrary();
+			deleteBook();
+		})
 	})
 }
 
@@ -103,10 +126,14 @@ const createBook = (e) => {
 	formModal.style.display = 'none';
 	container.innerHTML = '';
 	createLibrary();
+	deleteBook();
 }
 
 //Handle submitting the form
 submitButton.addEventListener('click', createBook);
 
-//Create library from the pre-populated library
+//Load the library
+
+//Create from the pre-populated library
 createLibrary();
+deleteBook();
